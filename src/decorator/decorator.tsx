@@ -16,6 +16,7 @@ export async function Decorator({
 
     return (
         <>
+            {/* eslint-disable-next-line @next/next/no-head-element */}
             <head>
                 <Styles />
             </head>

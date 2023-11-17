@@ -1,3 +1,5 @@
+import 'next-logger'
+
 import './globals.css'
 import type { Metadata } from 'next'
 import { PropsWithChildren, ReactElement } from 'react'

@@ -1,0 +1,52 @@
+name: Build and deploy
+on: push
+env:
+  NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+  GH_TOKEN: ${{ secrets.READER_TOKEN }}
+jobs:
+  build-and-publish:
+    name: Bygg, test og push Docker image
+    runs-on: ubuntu-latest
+    permissions:
+      packages: 'write'
+      contents: 'read'
+      id-token: 'write'
+    outputs:
+      image: ${{ steps.docker-build-push.outputs.image }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.0.12
+      - uses: actions/cache@v3
+        with:
+          path: ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/bun.lockb') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/bun.lockb') }}-
+      - run: bun install --frozen-lockfile
+      - run: bun run build
+      - name: Push docker image to GAR
+        uses: nais/docker-build-push@v0
+        id: docker-build-push
+        with:
+          team: teamsykmelding
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+
+  deploy-to-dev-gcp:
+    if: github.ref == 'refs/heads/main'
+    name: Deploy to dev
+    environment:
+      name: dev
+      url: https://decorator-rsc-exploration.ekstern.dev.nav.no
+    needs: [build-and-publish]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: dev-gcp
+          RESOURCE: nais/nais.yaml
+          VAR: image=${{ needs.build-and-publish.outputs.image }}

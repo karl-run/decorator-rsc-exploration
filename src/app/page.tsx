@@ -1,7 +1,6 @@
 import { ReactElement, Suspense } from 'react'
 import { Heading, Skeleton } from '@navikt/ds-react'
 
-import PageLinks from '@/components/page-links'
 import DataComponent from '@/components/DataComponent'
 
 export default function Home(): ReactElement {

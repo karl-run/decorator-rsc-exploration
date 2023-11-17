@@ -8,7 +8,8 @@ async function Page(): Promise<ReactElement> {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
         next: {
-            revalidate: 15,
+            // Once per minute
+            revalidate: 60,
         },
     }).then((it) => it.json())
 
