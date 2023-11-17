@@ -27,6 +27,8 @@ spec:
     initialDelay: 10
   accessPolicy:
     outbound:
+      external:
+        - host: g.nav.no
       rules:
         - application: nav-dekoratoren
           namespace: personbruker
