@@ -1,17 +1,15 @@
 import React, { ReactElement } from 'react'
 import { Heading } from '@navikt/ds-react'
 
+import { fetchGrunnbelop } from '@/data'
+
 async function Page(): Promise<ReactElement> {
     await new Promise((resolve) => setTimeout(resolve, 2000))
 
-    const data = await fetch('https://g.nav.no/api/v1/grunnbel%C3%B8p', {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-        next: {
-            // Once per minute
-            revalidate: 60,
-        },
-    }).then((it) => it.json())
+    const data = await fetchGrunnbelop({
+        // Once per minute
+        revalidate: 60,
+    })
 
     return (
         <div className="flex flex-col items-center justify-between p-12 gap-8">
