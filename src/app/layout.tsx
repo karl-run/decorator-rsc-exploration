@@ -3,9 +3,10 @@ import 'next-logger'
 import './globals.css'
 import type { Metadata } from 'next'
 import { PropsWithChildren, ReactElement } from 'react'
+import { logger } from '@navikt/next-logger'
 
-import { Decorator } from '@/decorator/decorator'
 import PageLinks from '@/components/page-links'
+import { Decorator } from '@/decorator/decorator'
 
 export const metadata: Metadata = {
     title: 'Decorator CSC Exploration',
@@ -26,6 +27,8 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({ children }: PropsWithChildren): ReactElement {
+    logger.info('Root layout is rendering')
+
     return (
         <Decorator
             decoratorProps={{

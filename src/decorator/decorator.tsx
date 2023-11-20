@@ -1,5 +1,6 @@
 import React, { PropsWithChildren, ReactElement } from 'react'
 import Script from 'next/script'
+import parse from 'html-react-parser'
 
 import { DecoratorFetchProps } from '@/decorator/common-types'
 
@@ -27,9 +28,9 @@ export async function Decorator({
                 ))}
             </head>
             <body>
-                <div dangerouslySetInnerHTML={{ __html: header }} />
+                {parse(header)}
                 {children}
-                <div dangerouslySetInnerHTML={{ __html: footer }} />
+                {parse(footer)}
                 {inlineScripts.map((it) => (
                     <div key={it} dangerouslySetInnerHTML={{ __html: it }} />
                 ))}
