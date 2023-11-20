@@ -27,20 +27,19 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: PropsWithChildren): ReactElement {
     return (
-        <html lang="en">
-            <Decorator
-                decoratorProps={{
-                    env: 'dev',
-                    params: {
-                        breadcrumbs: [{ title: 'Testing App Root Crumb', url: '/' }],
-                    },
-                }}
-            >
-                <main id="maincontent" role="main" tabIndex={-1}>
-                    <PageLinks />
-                    {children}
-                </main>
-            </Decorator>
-        </html>
+        <Decorator
+            decoratorProps={{
+                env: 'localhost',
+                localUrl: 'http://localhost:8089',
+                params: {
+                    breadcrumbs: [{ title: 'Testing App Root Crumb', url: '/' }],
+                },
+            }}
+        >
+            <main id="maincontent" role="main" tabIndex={-1}>
+                <PageLinks />
+                {children}
+            </main>
+        </Decorator>
     )
 }
