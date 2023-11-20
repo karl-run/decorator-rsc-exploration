@@ -48,7 +48,7 @@ const getNaisUrl = (env: DecoratorNaisEnv, csr = false, serviceDiscovery = true)
     return (shouldUseServiceDiscovery ? serviceUrls[env] : externalUrls[env]) || externalUrls.prod
 }
 
-export const getDecoratorUrl = (props: DecoratorUrlProps): string => {
+export const getDecoratorUrl = (props: DecoratorUrlProps, path: string): string => {
     const { env, params, csr } = props
     const baseUrl = env === 'localhost' ? props.localUrl : getNaisUrl(env, csr, props.serviceDiscovery)
 
@@ -56,5 +56,5 @@ export const getDecoratorUrl = (props: DecoratorUrlProps): string => {
         return baseUrl
     }
 
-    return `${baseUrl}/${csr ? 'env' : ''}${objectToQueryString(params)}`
+    return `${baseUrl}${path != null ? `/${path}` : ''}${objectToQueryString(params)}`
 }
