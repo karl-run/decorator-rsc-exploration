@@ -11,7 +11,7 @@ export async function getDecoratorMetadata(props: DecoratorFetchProps): Promise<
 }> {
     const url: string = getDecoratorUrl(props, 'scripts')
 
-    console.log(`Fetching new boi from ${url}`)
+    console.log(`Fetching decorator metadata ${url}`)
     const response = await fetch(url, {
         next: { revalidate: 15 * 60 },
     } as RequestInit)

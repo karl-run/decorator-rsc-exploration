@@ -13,6 +13,11 @@ const nextConfig = {
         serverComponentsExternalPackages: ['@navikt/next-logger', 'next-logger'],
         typedRoutes: true,
     },
+    logging: {
+        fetches: {
+            fullUrl: true,
+        },
+    }
 }
 
 module.exports = nextConfig
