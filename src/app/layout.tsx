@@ -32,8 +32,7 @@ export default function RootLayout({ children }: PropsWithChildren): ReactElemen
     return (
         <Decorator
             decoratorProps={{
-                env: 'localhost',
-                localUrl: 'http://localhost:8089',
+                env: 'devNext',
                 params: {
                     breadcrumbs: [{ title: 'Testing App Root Crumb', url: '/' }],
                 },
