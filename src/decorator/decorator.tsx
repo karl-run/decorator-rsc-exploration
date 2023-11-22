@@ -1,6 +1,7 @@
 import React, { PropsWithChildren, ReactElement } from 'react'
 import Script from 'next/script'
 import parse from 'html-react-parser'
+import { logger } from '@navikt/next-logger'
 
 import { DecoratorFetchProps } from '@/decorator/common-types'
 
@@ -14,10 +15,12 @@ export async function Decorator({
     children,
     decoratorProps,
 }: PropsWithChildren<DecoratorProps>): Promise<ReactElement> {
+    const t1 = performance.now()
     const [{ scripts, styles, inlineScripts, language }, { header, footer }] = await Promise.all([
         getDecoratorMetadata(decoratorProps),
         getDecoratorBlocks(decoratorProps),
     ])
+    logger.info(`Decorator fetched in ${performance.now() - t1}ms`)
 
     return (
         <html lang={language ?? 'nb'}>
